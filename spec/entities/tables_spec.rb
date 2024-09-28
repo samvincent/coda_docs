@@ -29,4 +29,7 @@ RSpec.describe CodaDocs::Entities::Tables do
     expect(res['type']).to eq 'table'
     expect(res.keys).to include('name', 'type', 'href', 'id')
   end
+
+  it 'should write to a table in a document' do
+  end
 end
