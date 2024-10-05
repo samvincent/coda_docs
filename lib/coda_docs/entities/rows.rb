@@ -64,8 +64,7 @@ module CodaDocs
         return false unless row.has_key?(:cells) && row[:cells].is_a?(Array)
 
         row[:cells].all? do |cell|
-          cell.has_key?(:column) && cell[:column].is_a?(String) &&
-          cell.has_key?(:value) && cell[:value].is_a?(String)
+          cell.has_key?(:column) && cell.has_key?(:value)
         end
       end
 
