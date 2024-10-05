@@ -18,7 +18,7 @@ module CodaDocs
         connection.post("/docs/#{doc_id}/tables/#{table_id}/rows/#{row_id}", body: {
           rows: rows,
           # keyColumns: key_columns # Optional
-        })
+          }.to_json)
       end
 
       # Updates a row with the specified data.
@@ -55,9 +55,7 @@ module CodaDocs
       def update(doc_id, table_id, row_id, row, options = { disable_parsing: true })
         raise "'row' is not of the correct form - for #{row.inspect}" unless valid_row?(row)
 
-        connection.put("/docs/#{doc_id}/tables/#{table_id}/rows/#{row_id}", body: {
-          row: row
-          })
+        connection.put("/docs/#{doc_id}/tables/#{table_id}/rows/#{row_id}", body: { row: row }.to_json)
       end
 
       private
