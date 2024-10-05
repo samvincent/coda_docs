@@ -53,21 +53,21 @@ module CodaDocs
       #   })
       #
       def update(doc_id, table_id, row_id, row, options = { disable_parsing: true })
-        raise "'row' is not of the correct form" unless valid_row?(row)
+        raise "'row' is not of the correct form - for #{row.inspect}" unless valid_row?(row)
 
         connection.put("/docs/#{doc_id}/tables/#{table_id}/rows/#{row_id}", body: {
           row: row
-        })
+          })
       end
 
       private
 
       def valid_row?(row)
-        return false unless row.respond_to?(:cells) && row.cells.is_a?(Array)
+        return false unless row.has_key?(:cells) && row.cells.is_a?(Array)
 
         row.cells.all? do |cell|
-          cell.respond_to?(:column) && cell.column.is_a?(String) &&
-          cell.respond_to?(:value) && cell.value.is_a?(String)
+          cell.has_key?(:column) && cell.column.is_a?(String) &&
+          cell.has_key?(:value) && cell.value.is_a?(String)
         end
       end
 
