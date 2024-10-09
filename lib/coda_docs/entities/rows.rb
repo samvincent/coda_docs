@@ -54,14 +54,14 @@ module CodaDocs
       #      }
       #
       # @see https://coda.io/developers/apis/v1#tag/Rows/operation/upsertRows
-      def insert_or_upsert(doc_id, table_id, rows, key_columns = [], options = { disable_parsing: true })
+      def insert_or_upsert(doc_id, table_id, rows, key_columns, options = { disable_parsing: true })
         rows.each do |row|
           raise "'row' is not of the correct form - for #{row.inspect}" unless valid_row?(row)
         end
-        connection.post("/docs/#{doc_id}/tables/#{table_id}/rows", query: options, body: {
-          rows: rows,
-          keyColumns: key_columns # Optional (Array of Coda Column IDs)
-        }.to_json)
+        body = { rows: rows }
+        body[:keyColumns] = key_columns if key_columns
+        puts body.to_json
+        connection.post("/docs/#{doc_id}/tables/#{table_id}/rows", query: options, body: body.to_json)
       end
 
       # Updates a row with the specified data.
